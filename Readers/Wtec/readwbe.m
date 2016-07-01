@@ -1,5 +1,6 @@
-% Jan 28th 2016, finally we got the documentation from Witec.
-% 
+% Jan 28th 2016, finally we got the documentation from Wtec.
+% mreyescalvo@gmail.com 
+
 % This are the specs for the different kinds of structures
 % Data info structure (read with wbe_data_info)
 %                   3 x int64: size, type, pointer
