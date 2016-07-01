@@ -52,7 +52,6 @@ function gui3dnew_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to gui3dnew (see VARARGIN)
 
-<<<<<<< Updated upstream
 %initialize variables for linecut
 handles.firstclick=1;
 handles.pos2=[1,1];
@@ -82,16 +81,14 @@ function bt_load_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %load data
-filename=get(handles.ed_filename,'String')
+filename=get(handles.ed_filename,'String');
    %fi=load('14BR_C.mat');
    fi=load(filename);
-=======
 %Load data: change to text field plus load button, then move all the
 %initialization to load button callback
 %global Header Data Ejes
 %fi=load('14BR_C.mat');
 %global Current
->>>>>>> Stashed changes
    handles.Header=fi.Header;
    handles.Data=fi.data;
    handles.Ejes=fi.ejes;
