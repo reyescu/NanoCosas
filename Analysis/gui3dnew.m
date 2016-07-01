@@ -22,7 +22,7 @@ function varargout = gui3dnew(varargin)
 
 % Edit the above text to modify the response to help gui3dnew
 
-% Last Modified by GUIDE v2.5 01-Jul-2016 18:14:06
+% Last Modified by GUIDE v2.5 02-Jul-2016 00:44:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,16 +52,42 @@ function gui3dnew_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to gui3dnew (see VARARGIN)
 
-%Load data: change to text field plus load button, then move all the
-%initialization to load button callback
-%global Header Data Ejes
-fi=load('14BR_C.mat');
-%global Current
+%initialize variables for linecut
+handles.firstclick=1;
+handles.pos2=[1,1];
+
+% Choose default command line output for gui3dnew
+handles.output = hObject;
+
+%setup cursor
+dcm_obj = datacursormode(gcf);
+  datacursormode on;
+  set(dcm_obj,'UpdateFcn', @myupdatefcn )
+  handles.dcm_obj = datacursormode(hObject);
+ set(handles.dcm_obj,'Enable','on','UpdateFcn',{@myupdatefcn,hObject});
+
+
+% UIWAIT makes gui3dnew wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+% Update handles structure
+guidata(hObject, handles);
+
+
+%% Load data and initialize graphs
+% --- Executes on button press in bt_load.
+function bt_load_Callback(hObject, eventdata, handles)
+% hObject    handle to bt_load (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%load data
+filename=get(handles.ed_filename,'String')
+   %fi=load('14BR_C.mat');
+   fi=load(filename);
    handles.Header=fi.Header;
    handles.Data=fi.data;
    handles.Ejes=fi.ejes;
-    
-%Initialize slider and z edits
+   %Initialize slider and z edits
 
 set(handles.zarray_slider,'Min',1);
 set(handles.zarray_slider,'Max',length(handles.Ejes.z_array));
@@ -88,28 +114,9 @@ set(handles.axes2,'Fontsize',14);
 xlabel(handles.axes2,[handles.Ejes.zlabel,'(',handles.Ejes.zunit,')'],'Fontsize',16);
 ylabel(handles.axes2,[handles.Ejes.datalabel,'(',handles.Ejes.dataunit,')'],'Fontsize',16);
 
-%initialize variables for linecut
-handles.firstclick=1;
-handles.pos2=[1,1];
-
-% Choose default command line output for gui3dnew
-handles.output = hObject;
-
-%setup cursor
-dcm_obj = datacursormode(gcf);
-  datacursormode on;
-  set(dcm_obj,'UpdateFcn', @myupdatefcn )
-  handles.dcm_obj = datacursormode(hObject);
- set(handles.dcm_obj,'Enable','on','UpdateFcn',{@myupdatefcn,hObject});
-
 % Update handles structure
 guidata(hObject, handles);
 
-
-
-
-% UIWAIT makes gui3dnew wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
@@ -379,3 +386,26 @@ function txt = myupdatefcn(~, event_obj,hFigure)
                  imagesc(handles.eeeh');
                  %Current.firstclick=true;
     
+
+
+
+function ed_filename_Callback(hObject, eventdata, handles)
+% hObject    handle to ed_filename (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ed_filename as text
+%        str2double(get(hObject,'String')) returns contents of ed_filename as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function ed_filename_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ed_filename (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
