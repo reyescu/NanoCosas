@@ -19,7 +19,13 @@ nx=str2num(Header.GridDim(2:a));
 ny=str2num(Header.GridDim(a+3:end-1));
 npar=str2num(Header.x0x23Parameters0x284Byte0x29);
 nz=str2num(Header.Points);
-ntot=npar+nz;
+b=strfind(Header.Channels,';');
+if length(b)<>0
+    n_channels=length(b)+1;
+else
+    n_channels=1;
+end
+ntot=npar+n_channels*nz;
 n=nx*ny*ntot;
 
 da=fread(fileID,n,'single','b');
@@ -29,10 +35,13 @@ dat=permute(dat,[2 3 1]);
 topo=squeeze(dat(:,:,5));
 data=dat(:,:,6:end);
 
-%%This parts creates the arrays necessary for 3d plotting
-%%Needs to be done properly for this kind of file so that it reads all this
-%%from the header
-
+i=npar+1;
+if n_channels>1
+for j=1:n_channels
+data(j,:,:,:)=dat(:,:,i:i+nz-1);
+i=i+nz;
+end;
+end
 
 ejes.x_array=1:nx;
 ejes.y_array=1:ny;
@@ -54,17 +63,24 @@ ejes.topounit=Header.ExperimentParameters(b(3)+1:c(3)-1);
 ejes.zunit=Header.SweepSignal(a+1:end-2);
 
 savename=[nam,'.mat'];
-save(savename,'data','topo','ejes','Header');
-
-
-suma=zeros(nx,ny);
-for i=1:nz
-    suma=suma+squeeze(data(:,:,i));
+save(savename,'data','topo','ejes','header');
+if n_channels>1
+for i=1:n_channels
+    load(savename);
+   data=squeeze(data(i,:,:,:));
+   savename2=[nam,'_ch',int2str(i),'.mat'];
+   save(savename2,'data','topo','ejes','header');
 end
-figure()
-imagesc(ejes.xrange,ejes.yrange,suma./nz)
-set(gca,'Fontsize',14);
-xlabel([ejes.xlabel,'(',ejes.xunit,')'])
-ylabel([ejes.ylabel,'(',ejes.yunit,')'])
-title(['Sum  ',ejes.zlabel,'(',ejes.dataunit,')'])
-colorbar
+end
+
+% suma=zeros(nx,ny);
+% for i=1:nz
+%     suma=suma+squeeze(data(:,:,i));
+% end
+% figure()
+% imagesc(ejes.xrange,ejes.yrange,suma./nz)
+% set(gca,'Fontsize',14);
+% xlabel([ejes.xlabel,'(',ejes.xunit,')'])
+% ylabel([ejes.ylabel,'(',ejes.yunit,')'])
+% title(['Sum  ',ejes.zlabel,'(',ejes.dataunit,')'])
+% colorbar
