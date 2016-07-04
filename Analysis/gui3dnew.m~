@@ -298,35 +298,33 @@ function txt = myupdatefcn(~, event_obj,hFigure)
   handles=guidata(hFigure);
   if hAxesParent==handles.axes1
     % code for linecut mode 
-       if get(handles.linecut_bt,'Value') == 1
-          updateGraph(handles);
-          if handles.firstclick==1
+    if get(handles.linecut_bt,'Value') == 1
+         updateGraph(handles);
+      if handles.firstclick==1
           handles.pos = position;
           handles.firstclick=0;
-          else
+      else
           handles.pos2 = position;
           plottheline(handles);
           handles.firstclick=1;
-          end 
-   
-       else
-           if get(handles.holdon_bt,'Value') == 1
-           hold(handles.axes1,'on')
-           hold(handles.axes2,'on')
-           scatter(handles.axes1,handles.pos(1),handles.pos(2),100,'filled')
-           end
-       handles.pos = position;
-       UpdateGraph2(handles)
-       end
+      end 
+
+   else
+   handles.pos = position;
+   UpdateGraph2(handles)
+   end
    txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2)),',',num2str(handles.Data(handles.pos(1),handles.pos(2),handles.zn))];
    %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2)),',Z:',num2str(Current.zn)]);
 
    else
-   handles.pos = position;
    txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2))];
    %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2))]);
    end
-   
+   if get(handles.holdon_bt,'Value') == 1
+   hold(handles.axes1,'on')
+   hold(handles.axes2,'on')
+   scatter(handles.axes1,handles.pos(1),handles.pos(2),100,'filled')
+   end
    % update gui data
    guidata(hFigure, handles);
 
