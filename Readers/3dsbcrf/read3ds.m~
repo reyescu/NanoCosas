@@ -1,5 +1,5 @@
 clear all
-filename='retract50nmspm12Hz_Spec2_004.3ds';
+filename='CCD_160411_000.3ds';
 [path,nam,ext]=fileparts(filename);
 fileID=fopen(filename);
 
@@ -20,7 +20,7 @@ ny=str2num(Header.GridDim(a+3:end-1));
 npar=str2num(Header.x0x23Parameters0x284Byte0x29);
 nz=str2num(Header.Points);
 b=strfind(Header.Channels,';');
-if length(b)~=0
+if length(b)<>0
     n_channels=length(b)+1;
 else
     n_channels=1;
@@ -62,20 +62,18 @@ ejes.yunit=Header.ExperimentParameters(b(2)+1:c(2)-1);
 ejes.topounit=Header.ExperimentParameters(b(3)+1:c(3)-1);
 ejes.zunit=Header.SweepSignal(a+1:end-2);
 ejes.datalabel=Header.Channels;
-ejes.dataunit=''; %to be done properly
+
 
 savename=[nam,'.mat'];
-save(savename,'data','topo','ejes','Header');
+save(savename,'data','topo','ejes','header');
 if n_channels>1
 for i=1:n_channels
     load(savename);
    data=squeeze(data(i,:,:,:));
    savename2=[nam,'_ch',int2str(i),'.mat'];
-   save(savename2,'data','topo','ejes','Header');
+   save(savename2,'data','topo','ejes','header');
 end
 end
-clear all
-%% TODO: get names of channels and assign to ejes.datalabel
 
 % suma=zeros(nx,ny);
 % for i=1:nz
