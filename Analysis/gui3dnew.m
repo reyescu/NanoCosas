@@ -72,6 +72,7 @@ dcm_obj = datacursormode(gcf);
 % Update handles structure
 guidata(hObject, handles);
 
+
 %% Load data and initialize graphs
 % --- Executes on button press in bt_load.
 function bt_load_Callback(hObject, eventdata, handles)
@@ -121,6 +122,8 @@ ylabel(handles.axes2,[handles.Ejes.datalabel,'(',handles.Ejes.dataunit,')'],'Fon
 % Update handles structure
 guidata(hObject, handles);
 
+
+
 % --- Outputs from this function are returned to the command line.
 function varargout = gui3dnew_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
@@ -131,7 +134,7 @@ function varargout = gui3dnew_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-%% Slider functions
+
 % --- Executes on slider movement.
 function zarray_slider_Callback(hObject, eventdata, handles)
 % hObject    handle to zarray_slider (see GCBO)
@@ -142,6 +145,15 @@ set(handles.ed_zn,'String',handles.zn);
    handles.zv = handles.Ejes.z_array(handles.zn);
    set(handles.ed_zv, 'String', handles.zv); 
    updateGraph(handles);
+
+
+
+        
+
+       % updateGraph()
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
 
 % --- Executes during object creation, after setting all properties.
 function zarray_slider_CreateFcn(hObject, eventdata, handles)
@@ -154,48 +166,9 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-%% edit box functions
-function ed_filename_Callback(hObject, eventdata, handles)
-% hObject    handle to ed_filename (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-function ed_filename_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to ed_filename (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 
-    
-function ed_zn_Callback(hObject, eventdata, handles)
-% hObject    handle to ed_zn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of ed_zn as text
-%        str2double(get(hObject,'String')) returns contents of ed_zn as a double
-%global  Current   
-handles.zn = round(str2double(get(hObject, 'String')));
-set(handles.zarray_slider,'Value',handles.zn);
-   handles.zv = handles.Ejes.z_array(handles.zn);
-   set(handles.ed_zv, 'String', handles.zv); 
-   updateGraph(handles);
-
-function ed_zn_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to ed_zn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 
 function ed_zv_Callback(hObject, eventdata, handles)
 % hObject    handle to ed_zv (see GCBO)
@@ -221,7 +194,9 @@ handles.zv = str2double(get(hObject, 'String'));
         handles.zv = handles.Ejes.z_array(handles.zn);
         set(handles.ed_zv, 'String', handles.zv); 
         updateGraph(handles)
-                
+        
+        
+% --- Executes during object creation, after setting all properties.
 function ed_zv_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to ed_zv (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -233,9 +208,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
-%% Buttons functions
 % --- Executes on button press in holdon_bt.
 function holdon_bt_Callback(hObject, eventdata, handles)
 % hObject    handle to holdon_bt (see GCBO)
@@ -257,6 +229,8 @@ function holdon_bt_Callback(hObject, eventdata, handles)
               updateGraph(handles);
  end
 
+
+
 % --- Executes on button press in linecut_bt.
 function linecut_bt_Callback(hObject, eventdata, handles)
 % hObject    handle to linecut_bt (see GCBO)
@@ -270,7 +244,7 @@ if get(handles.holdon_bt,'Value')==1
     set(handles.holdon_bt,'Value',0);
 end
 
-%%  Graphs refresh and plot
+
 function updateGraph(handles)
 %global  Current
         test=squeeze(handles.Data(:,:,handles.zn));
@@ -281,59 +255,109 @@ function updateGraph(handles)
         xlabel(handles.axes1,[handles.Ejes.xlabel,'(',handles.Ejes.xunit,')'],'Fontsize',16);
         ylabel(handles.axes1,[handles.Ejes.ylabel,'(',handles.Ejes.yunit,')'],'Fontsize',16);
        
-function UpdateGraph2(handles)
+        % Update frequency and amplitude text
+       
+        %set(A_edit, 'String', A)
+
+
+
+function ed_zn_Callback(hObject, eventdata, handles)
+% hObject    handle to ed_zn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ed_zn as text
+%        str2double(get(hObject,'String')) returns contents of ed_zn as a double
+%global  Current   
+handles.zn = round(str2double(get(hObject, 'String')));
+set(handles.zarray_slider,'Value',handles.zn);
+   handles.zv = handles.Ejes.z_array(handles.zn);
+   set(handles.ed_zv, 'String', handles.zv); 
+   updateGraph(handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function ed_zn_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ed_zn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function txt = myupdatefcn(~, event_obj,hFigure)
+  %global  Current
+  %axes(handles.axes1);
+   hAxesParent  = get(get(event_obj,'Target'),'Parent');
+   position = get(event_obj,'Position');
+   handles=guidata(hFigure);
+   if hAxesParent==handles.axes1
+   %disp('hey') 
+     if get(handles.linecut_bt,'Value') == 1
+         updateGraph(handles);
+      if handles.firstclick==1
+          handles.pos = position;
+          handles.firstclick=0;
+          %disp('hey')
+      else
+          handles.pos2 = position;
+          plottheline(handles);
+          handles.firstclick=1;
+        %  guidata(hFigure, handles);
+         % disp('ho')
+      end 
+
+     else
+   handles.pos = position;
+   %plot(hand.axes2,handles.Ejes.z_array, squeeze(handles.Data(Current.pos(1),Current.pos(2),:)));
+     UpdateGraph2(handles)
+     end
+   txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2)),',',num2str(handles.Data(handles.pos(1),handles.pos(2),handles.zn))];
+   %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2)),',Z:',num2str(Current.zn)]);
+
+   else
+      txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2))];
+   %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2))]);
+   end
+   if get(handles.holdon_bt,'Value') == 1
+   hold(handles.axes1,'on')
+   hold(handles.axes2,'on')
+   scatter(handles.axes1,handles.pos(1),handles.pos(2),100,'filled')
+   end
+         guidata(hFigure, handles);
+
+   %if 
+   %        scatter(hand.axes1,pos(1),pos(2),'filled');
+   %     end
+%         if get(profilebutton,'Value')
+%          %firstprofileclick;
+%            if firstprofileclick==true;
+%               x1=pos(1);
+%               y1=pos(2);
+%               firstprofileclick=false;
+%            else
+%               x2=pos(1);
+%               y2=pos(2);
+%               %class(x2)
+%               plottheline(x1,x2,y1,y2);
+%            end
+%         end
+%    end
+  %end
+ 
+ 
+    function UpdateGraph2(handles)
         %global  Current
         plot(handles.axes2,handles.Ejes.z_array, squeeze(handles.Data(handles.pos(1),handles.pos(2),:)));
         set(handles.axes2,'Fontsize',14);
         xlabel(handles.axes2,[handles.Ejes.zlabel,'(',handles.Ejes.zunit,')'],'Fontsize',16);
         ylabel(handles.axes2,[handles.Ejes.datalabel,'(',handles.Ejes.dataunit,')'],'Fontsize',16);
-  
-%% Executes when cursor click on figures
-function txt = myupdatefcn(~, event_obj,hFigure)
-   % Am I clicking in axes 1 or axes 2?
-  hAxesParent  = get(get(event_obj,'Target'),'Parent');
-   % get cursor position
-  position = get(event_obj,'Position');
-   % load gui data
-  handles=guidata(hFigure);
-  if hAxesParent==handles.axes1
-    % code for linecut mode 
-       if get(handles.linecut_bt,'Value') == 1
-          updateGraph(handles);
-          if handles.firstclick==1
-          handles.pos = position;
-          handles.firstclick=0;
-          else
-          handles.pos2 = position;
-          plottheline(handles);
-          handles.firstclick=1;
-          end 
-   
-       else
-           if get(handles.holdon_bt,'Value') == 1
-           hold(handles.axes1,'on')
-           hold(handles.axes2,'on')
-           scatter(handles.axes1,handles.pos(1),handles.pos(2),100,'filled')
-           end
-       handles.pos = position;
-       UpdateGraph2(handles)
-       end
-   txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2)),',',num2str(handles.Data(handles.pos(1),handles.pos(2),handles.zn))];
-   %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2)),',Z:',num2str(Current.zn)]);
 
-   else
-   handles.pos = position;
-   txt = [num2str(handles.pos(1)),',',num2str(handles.pos(2))];
-   %disp(['You clicked X:',num2str(Current.pos(1)),', Y:',num2str(Current.pos(2))]);
-   end
-   
-   % update gui data
-   guidata(hFigure, handles);
-
-   
- 
- 
-   %% Function for linecuts      
+        
   function plottheline(handles)
      % global   Current
       x1=handles.pos(1);
@@ -366,3 +390,27 @@ function txt = myupdatefcn(~, event_obj,hFigure)
                  h=figure();
                  imagesc(handles.eeeh');
                  %Current.firstclick=true;
+    
+
+
+
+function ed_filename_Callback(hObject, eventdata, handles)
+% hObject    handle to ed_filename (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ed_filename as text
+%        str2double(get(hObject,'String')) returns contents of ed_filename as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function ed_filename_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ed_filename (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
