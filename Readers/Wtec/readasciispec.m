@@ -1,5 +1,5 @@
 
-filename = '14BR_C_Spec12.txt';
+filename = '14BR_D_Spec18.txt';
 
 delimiter = '\t';
 formatSpec = '%f%f%[^\n\r]';
