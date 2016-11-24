@@ -1,5 +1,5 @@
 clear all
-filename='retract50nmspm12Hz_Spec2_004.3ds';
+filename='';
 [path,nam,ext]=fileparts(filename);
 fileID=fopen(filename);
 
