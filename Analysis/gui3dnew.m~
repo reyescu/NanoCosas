@@ -389,11 +389,4 @@ function txt = myupdatefcn(~, event_obj,hFigure)
                  plot(handles.eeeh(i,:))
                  end
                  
-                 f=figure()
-                 hold on
-                 handles.zn
-                 for i=1:length(handles.Ejes.z_array)
-                 plot(handles.eeeh(:,i))
-                 end
-                 
                  %Current.firstclick=true;
