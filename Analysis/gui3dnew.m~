@@ -196,6 +196,15 @@ function ed_zv_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of ed_zv as text
 %        str2double(get(hObject,'String')) returns contents of ed_zv as a double
    
+handles.slider_n = abs(round(str2double(get(hObject, 'String'))));
+if handles.slider_n > length(handles.Axis{3}.array)
+    handles.slider_n=length(handles.Axis{3}.array);
+end
+set(handles.ed_zn, 'String', handles.slider_n); 
+set(handles.zarray_slider,'Value',handles.slider_n);
+   handles.slider_v = handles.Axis{3}.array(handles.slider_n);
+   set(handles.ed_zv, 'String', handles.slider_v); 
+   updateGraph(handles);
 
 handles.slider_v = str2double(get(hObject, 'String'));
 handles.zmax
@@ -207,7 +216,7 @@ handles.zmin
                 handles.slider_n=1;
                 handles.slider_v=handles.zmin;
             else
-            handles.slider_n = find(~(handles.Axis{3}.array-handles.slider_v),1)
+            handles.slider_n = find(handles.Axis{3}.array > handles.slider_v,1)
             end
         end
         set(handles.zarray_slider,'value', handles.slider_n);
