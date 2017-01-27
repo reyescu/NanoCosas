@@ -77,7 +77,9 @@ filename=get(handles.ed_filename,'String');
    %Initialize slider and z edits
 
 set(handles.zarray_slider,'Min',1);
-set(handles.zarray_slider,'Max',length(handles.Axis{3}.array));
+l=length(handles.Axis{3}.array);
+set(handles.zarray_slider,'Max',l);
+set(handles.zarray_slider,'SliderStep',[1/(l-1),10/(l-1)]);
 set(handles.zarray_slider,'Value',1);
 
 fin=handles.Axis{3}.array(end);
@@ -277,10 +279,16 @@ handles.firstclick=1;
 function updateGraph(handles)
 %global  Current
         test=squeeze(handles.Data.s1(:,:,handles.slider_n));
-        %test=imresize(test,str2num(get(handles.ed_resize,'String')));
+       % test=imresize(test,3);
+       % imagesc(handles.Axis{1}.range,handles.Axis{2}.range,test','Parent',handles.axes1);
         imagesc(test','Parent',handles.axes1);
         auto=get(handles.cb_autoscale,'Value');
-        
+        colorbar(handles.axes1);
+        set(handles.axes1,'YDir','normal');
+        set(handles.axes1,'Fontsize',14);
+        xlabel(handles.axes1,[handles.Axis{1}.parameter,'(',handles.Axis{1}.unit,')'],'Fontsize',16);
+        ylabel(handles.axes1,[handles.Axis{2}.parameter,'(',handles.Axis{2}.unit,')'],'Fontsize',16);
+       
         if auto==1
             caxis(handles.axes1,'auto');
         end
@@ -294,12 +302,7 @@ function updateGraph(handles)
             end   
         caxis(handles.axes1,[min max]);
         end
-         colorbar(handles.axes1);
-        set(handles.axes1,'YDir','normal');
-        set(handles.axes1,'Fontsize',14);
-        xlabel(handles.axes1,[handles.Axis{1}.parameter,'(',handles.Axis{1}.unit,')'],'Fontsize',16);
-        ylabel(handles.axes1,[handles.Axis{2}.parameter,'(',handles.Axis{2}.unit,')'],'Fontsize',16);
-       
+        
 function UpdateGraph2(handles)
         %global  Current
         plot(handles.axes2,handles.Axis{3}.array, squeeze(handles.Data.s1(handles.pos(1),handles.pos(2),:)));

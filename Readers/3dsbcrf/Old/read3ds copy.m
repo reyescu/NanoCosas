@@ -146,7 +146,7 @@ ax{2}.array=1:n2;
 ax{2}.s1=par2;
 ax{3}.array=1:n3;
 for i=1:3
-ax{i}.range=[ax{i}.array(i),ax{i}.array(end)];
+ax{i}.range=[ax{i}.array(1),ax{i}.array(end)];
 end
 
 savename=[nam,'.mat'];
