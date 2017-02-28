@@ -5,13 +5,13 @@ clear all
 %other parameters, the actual positions are not yet read
 
 %% set name of file to convert and add info manually
-filename='WSe2_45_cross_100x100_CCD_001.3ds';
-Info.file=filename;
-Info.date='17/01/2017';
-Info.measurement='test CCD spatial map';
-Info.sample='WSe2_ML_YIG';
-Info.n_ax=3;
-Info.n_sw=1;
+filename='LNT_ML-WSe2-YIG_45_cross_long_CCD_000.3ds';
+info.file=filename;
+info.date='17/01/2017';
+info.measurement='test CCD spatial map';
+info.sample='WSe2_ML_YIG';
+info.n_ax=3;
+info.n_sw=1;
 
 
 %% open file
@@ -149,7 +149,7 @@ save(savename,'Info','ch','ax');
 %     load(savename);
 %    data=squeeze(data(i,:,:,:));
 %    savename2=[nam,'_ch',int2str(i),'.mat'];
-%    save(savename2,'data','ejes','Header');
+%    save(savenaclearme2,'data','ejes','Header');
 % end
 % end
 clear all
