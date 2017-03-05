@@ -43,12 +43,9 @@ clear ch2;
 end
 ch{1}.parameter='Current';
 ch{2}.parameter='Current';
-ch{3}.parameter='di/dv';
-
 ch{4}.parameter='di/dv';
 ch{1}.unit='(V dac)';
 ch{2}.unit='(V dac)';
-ch{3}.unit='(a.u.)';
 ch{4}.unit='(a.u.)';
 
 ax{1}.parameter='X position';

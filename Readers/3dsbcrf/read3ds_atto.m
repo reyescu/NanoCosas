@@ -5,7 +5,7 @@ clear all
 %other parameters, the actual positions are not yet read
 
 %% set name of file to convert and add info manually
-filename='LNT_ML-WSe2-YIG_45_cross_long_CCD_000.3ds';
+filename='L65_50-50_CP45_Paralel_CCD_040.3ds';
 info.file=filename;
 info.date='17/01/2017';
 info.measurement='test CCD spatial map';
