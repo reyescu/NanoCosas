@@ -5,19 +5,20 @@ clear all
 
 E=-0.004:0.000005:0.004;
 %T=1;
-delta=0.001;
+delta=0.00135;
 gamma=0.000025;
+g0=1;
 
-for T=6:6
+for T=4:7
     clear curr didv
-   [didv,curr]=SCgap(E,T,delta,gamma,1);
+   [didv,curr]=SCgap(E,T,delta,gamma,g0);
    figure(1)
    hold on
 scatter(E./1E-3,curr)
 figure(2)
 hold on
 scatter(E(1:end-1)./1E-3,diff(curr))
-leg{T}=['T=',num2str(T)'];
+leg{T-3}=['T=',num2str(T)'];
 end
 
 figure(2)
