@@ -106,16 +106,28 @@ save(savename,'Header','data','ejes');
 
 
 Info.Header=Header;
+
 ch{1}.s1=data;
+ch{1}.parameter=ejes.datalabel;
+ch{1}.unit=ejes.dataunit;
+
+
+ax{1}.parameter=ejes.xlabel;
+ax{2}.parameter=ejes.ylabel;
+ax{3}.parameter=ejes.zlabel;
+ax{1}.unit=ejes.xunit;
+ax{2}.unit=ejes.yunit;
+ax{3}.unit=ejes.zunit;
+
 
 ax{1}.array=ejes.x_array;
-ax{1}.s1=repmat(ax{2}.array',1,n2,n3);
+ax{1}.s1=repmat(ax{1}.array',1,ny,np);
 
 ax{2}.array=ejes.y_array;
-ax{2}.s1=repmat(ax{2}.array,n1,1,n3);
-%ax{2}.s1=par2;
+ax{2}.s1=repmat(ax{2}.array,nx,1,np);
+
 ax{3}.array=ejes.z_array;
-ax{3}.s1=permute(repmat(ax{3}.array,1,n1,n2),[2 3 1]);
+ax{3}.s1=permute(repmat(ax{3}.array,1,nx,ny),[2 3 1]);
 
 for i=1:3
 ax{i}.range=[ax{i}.array(1),ax{i}.array(end)];
