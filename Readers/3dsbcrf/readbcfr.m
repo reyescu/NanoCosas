@@ -1,5 +1,5 @@
 %clear all
-fileID=fopen('322p98to222p980p5Z_height_008_ch2_bwd_');
+fileID=fopen('SC_015-Topography-bwd.bcrf');
 headersize=2048;
 %[a,count]=fread(fileID,2048,'uchar');
 %Header=char(a);

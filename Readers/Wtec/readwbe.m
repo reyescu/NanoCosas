@@ -1,4 +1,7 @@
-% Jan 28th 2016, finally we got the documentation from Wtec.
+% Apr 2018 adapt file to save data in the generic .mat format that we use 
+% analysis in scripts 
+
+%Jan 28th 2016, finally we got the documentation from Wtec.
 % mreyescalvo@gmail.com 
 
 % This are the specs for the different kinds of structures
@@ -98,8 +101,29 @@ ejes.xunit=T2.data_units;
 ejes.yunit=T2.data_units;
 ejes.zunit=T1.data_units;
 
-savename=[filenameoutput,'.mat'];
+savename=[filenameoutput,'_old.mat'];
 save(savename,'Header','data','ejes');
+
+
+Info.Header=Header;
+ch{1}.s1=data;
+
+ax{1}.array=ejes.x_array;
+ax{1}.s1=repmat(ax{2}.array',1,n2,n3);
+
+ax{2}.array=ejes.y_array;
+ax{2}.s1=repmat(ax{2}.array,n1,1,n3);
+%ax{2}.s1=par2;
+ax{3}.array=ejes.z_array;
+ax{3}.s1=permute(repmat(ax{3}.array,1,n1,n2),[2 3 1]);
+
+for i=1:3
+ax{i}.range=[ax{i}.array(1),ax{i}.array(end)];
+end
+
+savename=[filenameoutput,'.mat'];
+save(savename,'Info','ch','ax');
+
 
 figure()
 imagesc(ejes.xrange,ejes.yrange,suma./np)
