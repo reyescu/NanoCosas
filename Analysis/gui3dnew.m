@@ -72,6 +72,7 @@ filename=get(handles.ed_filename,'String');
    %fi=load('14BR_C.mat');
    fi=load(filename);
    ch=str2num(get(handles.edit_ch,'String'));
+   ch2=str2num(get
    handles.Data=fi.ch{ch};
    handles.Axis=fi.ax;
    %Initialize slider and z edits
@@ -285,6 +286,7 @@ function updateGraph(handles)
         auto=get(handles.cb_autoscale,'Value');
         colorbar(handles.axes1);
         set(handles.axes1,'YDir','normal');
+        set(handles.axes1,'equal');
         set(handles.axes1,'Fontsize',14);
         xlabel(handles.axes1,[handles.Axis{1}.parameter,'(',handles.Axis{1}.unit,')'],'Fontsize',16);
         ylabel(handles.axes1,[handles.Axis{2}.parameter,'(',handles.Axis{2}.unit,')'],'Fontsize',16);
@@ -305,6 +307,7 @@ function updateGraph(handles)
         
 function UpdateGraph2(handles)
         %global  Current
+        
         plot(handles.axes2,handles.Axis{3}.array, squeeze(handles.Data.s1(handles.pos(1),handles.pos(2),:)));
         set(handles.axes2,'Fontsize',14);
         xlabel(handles.axes2,[handles.Axis{3}.parameter,'(',handles.Axis{3}.unit,')'],'Fontsize',16);
