@@ -33,16 +33,16 @@ function readwbe(filename,filenameoutput)
     fileID=fopen(filename);
 %% First lets read the header
     Header.Originalfiletype='wbe';
-    Header.Identifier=char(fread(fileID,8,'uchar'))'
-    Header.Version=fread(fileID,1,'uint64','l')
+    Header.Identifier=char(fread(fileID,8,'uchar'))';
+    Header.Version=fread(fileID,1,'uint64','l');
     Header.FileInfo=wbe_data_info(fileID,16);
     
 %% Lets go for the first object (I assume there are no more objects)
 % in the future it could be necessary to do properly this part with a loop
 % or so to account for more objects
     fseek(fileID,40,'bof');
-    PFO=fread(fileID,1,'uint64','l')
-    [OFP1,OFP2,OFP1_type]=wbe_object_info(fileID,PFO)
+    PFO=fread(fileID,1,'uint64','l');
+    [OFP1,OFP2,OFP1_type]=wbe_object_info(fileID,PFO);
     if OFP2~=0 
         print('Warning: there seems to be more than 1 data objects to read!!')
     end
@@ -51,8 +51,8 @@ function readwbe(filename,filenameoutput)
     tran=fread(fileID,1,'uint64','l');
     % get data info and data
     data_unit_kind=fread(fileID,1,'uint64','l');
-    a=ftell(fileID)
-    Header.data_units=wbe_data_info(fileID,a)
+    a=ftell(fileID);
+    Header.data_units=wbe_data_info(fileID,a);
     b=a+24;
     dat=wbe_data_info(fileID,b);
     d=b+24;
@@ -60,8 +60,8 @@ function readwbe(filename,filenameoutput)
 
  %% obtain transformations
     % again I assume here there are only 2, code can be adapted for more
-    [TOIP1,TOIP2,TOIP1_type]=wbe_object_info(fileID,tran)
-    [TOIP2,TOIP3,TOIP2_type]=wbe_object_info(fileID,TOIP2)
+    [TOIP1,TOIP2,TOIP1_type]=wbe_object_info(fileID,tran);
+    [TOIP2,TOIP3,TOIP2_type]=wbe_object_info(fileID,TOIP2);
     if TOIP3~=0 
         print('Warning: there seems to be more than 2 transformations to read!!')
     end
@@ -80,7 +80,7 @@ ejes.y_array=(1:ny).*T2.scale_matrix(5)+T2.origin(2);
 ejes.z_array=T1.data;
 ejes.xrange=[ejes.x_array(1),ejes.x_array(end)];
 ejes.yrange=[ejes.y_array(1),ejes.y_array(end)];
-ejes.zrange=[ejes.z_array(1),ejes.z_array(end)]
+ejes.zrange=[ejes.z_array(1),ejes.z_array(end)];
 
 data=reshape(dat,[np,nx,ny]);
 
@@ -138,7 +138,9 @@ save(savename,'Info','ch','ax');
 
 
 figure()
-imagesc(ejes.xrange,ejes.yrange,suma./np)
+imagesc(ejes.xrange,ejes.yrange,suma'./np)
+set(gca,'YDir','normal');
+axis('equal');
 set(gca,'Fontsize',14);
 xlabel([ejes.xlabel,'(',ejes.xunit,')'])
 ylabel([ejes.ylabel,'(',ejes.yunit,')'])
