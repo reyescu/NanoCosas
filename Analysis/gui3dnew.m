@@ -20,7 +20,7 @@ function varargout = gui3dnew(varargin)
 
 % Edit the above text to modify the response to help gui3dnew
 
-% Last Modified by GUIDE v2.5 26-Jan-2017 15:02:17
+% Last Modified by GUIDE v2.5 19-Jun-2018 18:53:55
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -72,8 +72,12 @@ filename=get(handles.ed_filename,'String');
    %fi=load('14BR_C.mat');
    fi=load(filename);
    ch=str2num(get(handles.edit_ch,'String'));
-   %ch2=str2num(get(handles.edit_ch,
+   ch2=str2num(get(handles.edit_ch2,'String'));
    handles.Data=fi.ch{ch};
+   handles.fitch=get(handles.chbox_fitch,'Value');
+   if handles.fitch
+       handles.Data_fit=fi.ch{ch2};
+   end
    handles.Axis=fi.ax;
    %Initialize slider and z edits
 
@@ -280,13 +284,14 @@ handles.firstclick=1;
 function updateGraph(handles)
 %global  Current
         test=squeeze(handles.Data.s1(:,:,handles.slider_n));
+        ax=handles.Axis;
        % test=imresize(test,3);
        % imagesc(handles.Axis{1}.range,handles.Axis{2}.range,test','Parent',handles.axes1);
         imagesc(test','Parent',handles.axes1);
         auto=get(handles.cb_autoscale,'Value');
         colorbar(handles.axes1);
         set(handles.axes1,'YDir','normal');
-        set(handles.axes1,'equal');
+       % set(handles.axes1,'axis','equal');
         set(handles.axes1,'Fontsize',14);
         xlabel(handles.axes1,[handles.Axis{1}.parameter,'(',handles.Axis{1}.unit,')'],'Fontsize',16);
         ylabel(handles.axes1,[handles.Axis{2}.parameter,'(',handles.Axis{2}.unit,')'],'Fontsize',16);
@@ -307,8 +312,15 @@ function updateGraph(handles)
         
 function UpdateGraph2(handles)
         %global  Current
-        
         plot(handles.axes2,handles.Axis{3}.array, squeeze(handles.Data.s1(handles.pos(1),handles.pos(2),:)));
+        if handles.fitch
+           hold(handles.axes2,'on')
+           plot(handles.axes2,handles.Axis{3}.array, squeeze(handles.Data_fit.s1(handles.pos(1),handles.pos(2),:)));
+           if get(handles.holdon_bt,'Value') == 0
+           hold(handles.axes2,'off')
+          end
+        end
+        
         set(handles.axes2,'Fontsize',14);
         xlabel(handles.axes2,[handles.Axis{3}.parameter,'(',handles.Axis{3}.unit,')'],'Fontsize',16);
         ylabel(handles.axes2,[handles.Data.parameter,'(',handles.Data.unit,')'],'Fontsize',16);
@@ -333,7 +345,7 @@ function txt = myupdatefcn(~, event_obj,hFigure)
 
           else
           handles.pos=position;    
-          handles.pos2 = position
+          handles.pos2 = position;
           handles.firstclick=1;
           plottheline(handles)
           UpdateGraph2(handles)
@@ -513,3 +525,44 @@ function ed_caxismin_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function edit_ch2_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_ch2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_ch2 as text
+%        str2double(get(hObject,'String')) returns contents of edit_ch2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_ch2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_ch2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in chbox_fitch.
+function chbox_fitch_Callback(hObject, eventdata, handles)
+% hObject    handle to chbox_fitch (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of chbox_fitch
+
+
+% --- Executes on button press in chbox_plotfit.
+function chbox_plotfit_Callback(hObject, eventdata, handles)
+% hObject    handle to chbox_plotfit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of chbox_plotfit
