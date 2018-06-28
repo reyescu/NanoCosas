@@ -72,7 +72,7 @@ filename=get(handles.ed_filename,'String');
    %fi=load('14BR_C.mat');
    fi=load(filename);
    ch=str2num(get(handles.edit_ch,'String'));
-   ch2=str2num(get
+   %ch2=str2num(get
    handles.Data=fi.ch{ch};
    handles.Axis=fi.ax;
    %Initialize slider and z edits
